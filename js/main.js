@@ -28,6 +28,20 @@
         $('html, body').animate({scrollTop: 0}, 1500, 'easeInOutExpo');
         return false;
     });
+
+    // Top to Back button
+    $(window).scroll(function () {
+        if ($(this).scrollTop() < 11000) {
+            $('.top-to-back').fadeIn('slow');
+        } else {
+            $('.top-to-back').fadeOut('slow');
+        }
+    });
+
+    $('.top-to-back').click(function () {
+        $('html, body').animate({scrollTop: $(document).height()}, 1500, 'easeInOutExpo');
+        return false;
+    });
     
     
     // Sticky Navbar
