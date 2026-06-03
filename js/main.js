@@ -132,7 +132,7 @@
     // Contact Me 
     document.addEventListener('DOMContentLoaded', function() {
         // Contact Me 버튼 클릭 이벤트 추가
-        document.querySelector('.hero-btn .btn[href=""]').addEventListener('click', function(event) {
+        document.querySelector('.hero-btn .btn[href=""]')?.addEventListener('click', function(event) {
             event.preventDefault(); // 기본 동작 방지
             
             // Contact 섹션의 위치로 스크롤
