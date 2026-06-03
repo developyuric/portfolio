@@ -107,7 +107,7 @@
     
     // Scroll to Outworks section
     document.addEventListener('DOMContentLoaded', function() {
-        document.getElementById('portfolio-btn .btn[href=""]').addEventListener('click', function(event) {
+        document.getElementById('portfolio-btn .btn[href=""]')?.addEventListener('click', function(event) {
             event.preventDefault(); // Prevent default link behavior
             
             // Scroll to the Outworks section
