@@ -13,9 +13,7 @@
     
     
     // Initiate the wowjs
-    if (typeof WOW !== 'undefined') {
-        new WOW().init();
-    }
+    new WOW().init();
     
     
     // Back to top button
@@ -61,12 +59,9 @@
         if (this.hash !== "") {
             event.preventDefault();
             
-            var target = $(this.hash);
-            if (target.length) {
-                $('html, body').animate({
-                    scrollTop: target.offset().top - 45
-                }, 1500, 'easeInOutExpo');
-            }
+            $('html, body').animate({
+                scrollTop: $(this.hash).offset().top - 45
+            }, 1500, 'easeInOutExpo');
             
             if ($(this).parents('.navbar-nav').length) {
                 $('.navbar-nav .active').removeClass('active');
@@ -77,7 +72,7 @@
     
     
     // Typed Initiate
-    if ($('.hero .hero-text h2').length == 1 && typeof Typed !== 'undefined') {
+    if ($('.hero .hero-text h2').length == 1) {
         var typed_strings = $('.hero .hero-text .typed-text').text();
         var typed = new Typed('.hero .hero-text h2', {
             strings: typed_strings.split(', '),
@@ -90,61 +85,59 @@
     
     
     // Skills
-    if ($('.skills').length && typeof $.fn.waypoint !== 'undefined') {
-        $('.skills').waypoint(function () {
-            $('.progress .progress-bar').each(function () {
-                $(this).css("width", $(this).attr("aria-valuenow") + '%');
-            });
-        }, {offset: '80%'});
-    }
+    $('.skills').waypoint(function () {
+        $('.progress .progress-bar').each(function () {
+            $(this).css("width", $(this).attr("aria-valuenow") + '%');
+        });
+    }, {offset: '80%'});
 
 
     // Testimonials carousel
-    if ($('.testimonials-carousel').length && typeof $.fn.owlCarousel !== 'undefined') {
-        $(".testimonials-carousel").owlCarousel({
-            center: true,
-            autoplay: true,
-            dots: true,
-            loop: true,
-            responsive: {
-                0:{
-                    items:1
-                }
+    $(".testimonials-carousel").owlCarousel({
+        center: true,
+        autoplay: true,
+        dots: true,
+        loop: true,
+        responsive: {
+            0:{
+                items:1
             }
-        });
-    }
+        }
+    });
     
     // Scroll to Outworks section
     document.addEventListener('DOMContentLoaded', function() {
-        // querySelector로 올바르게 교체하고 안전장치 처리
-        document.querySelector('#portfolio-btn .btn[href=""]')?.addEventListener('click', function(event) {
-            event.preventDefault();
-            document.getElementById('portfolio')?.scrollIntoView({
-                behavior: 'smooth'
+        document.getElementById('portfolio-btn .btn[href=""]').addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent default link behavior
+            
+            // Scroll to the Outworks section
+            document.getElementById('portfolio').scrollIntoView({
+                behavior: 'smooth' // Smooth scroll effect
             });
         });
     });
     
     // Outworks filter
-    if ($('.outworks-container').length && typeof $.fn.isotope !== 'undefined') {
-        var outworksIsotope = $('.outworks-container').isotope({
-            itemSelector: '.outworks-item',
-            layoutMode: 'fitRows'
-        });
+    var outworksIsotope = $('.outworks-container').isotope({
+        itemSelector: '.outworks-item',
+        layoutMode: 'fitRows'
+    });
 
-        $('#outworks-filter li').on('click', function () {
-            $("#outworks-filter li").removeClass('filter-active');
-            $(this).addClass('filter-active');
-            outworksIsotope.isotope({filter: $(this).data('filter')});
-        });
-    }
+    $('#outworks-filter li').on('click', function () {
+        $("#outworks-filter li").removeClass('filter-active');
+        $(this).addClass('filter-active');
+        outworksIsotope.isotope({filter: $(this).data('filter')});
+    });
 
     // Contact Me 
     document.addEventListener('DOMContentLoaded', function() {
-        document.querySelector('.hero-btn .btn[href=""]')?.addEventListener('click', function(event) {
-            event.preventDefault();
-            document.getElementById('contact')?.scrollIntoView({
-                behavior: 'smooth'
+        // Contact Me 버튼 클릭 이벤트 추가
+        document.querySelector('.hero-btn .btn[href=""]').addEventListener('click', function(event) {
+            event.preventDefault(); // 기본 동작 방지
+            
+            // Contact 섹션의 위치로 스크롤
+            document.getElementById('contact').scrollIntoView({
+                behavior: 'smooth' // 부드러운 스크롤 효과
             });
         });
     });
@@ -153,21 +146,47 @@
     document.addEventListener('DOMContentLoaded', function() {
         var element = document.querySelector('.teamProject-title-animate');
     
-        // 요소가 존재할 때만 감시하도록 완벽한 안전장치 추가!
-        if (element && typeof IntersectionObserver !== 'undefined') {
-            var observer = new IntersectionObserver(function(entries) {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        setTimeout(function() {
-                            element.classList.add('animate__animated', 'animate__shakeX');
-                        }, 1500);
-                        observer.unobserve(element);
-                    }
-                });
-            }, { threshold: 0.1 });
-        
-            observer.observe(element);
-        }
+        var observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) { // 요소가 화면에 나타났을 때
+                    setTimeout(function() {
+                        element.classList.add('animate__animated', 'animate__shakeX');
+                    }, 1500); // 1초 뒤 애니메이션 실행
+                    observer.unobserve(element); // 애니메이션 실행 후 더 이상 감지하지 않음
+                }
+            });
+        }, { threshold: 0.1 }); // 10%만 화면에 보여도 트리거
+    
+        observer.observe(element);
     });
+
+    
+    
+    // // Send Message
+    // document.addEventListener('DOMContentLoaded', function() {
+    //     const form = document.getElementById('contactForm');
+        
+    //     form.addEventListener('submit', function(event) {
+    //         event.preventDefault(); // 기본 제출 동작 방지
+    
+    //         const formData = new FormData(form);
+    
+    //         fetch('send_email.php', {
+    //             method: 'POST',
+    //             body: formData
+    //         })
+    //         .then(response => response.text())
+    //         .then(result => {
+    //             document.getElementById('success').innerText = 'Message sent successfully!';
+    //             form.reset(); // 폼 리셋
+    //         })
+    //         .catch(error => {
+    //             console.error('Error:', error);
+    //             document.getElementById('success').innerText = 'Failed to send message.';
+    //         });
+    //     });
+    // });
+    
+
 
 })(jQuery);
